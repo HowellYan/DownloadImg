@@ -40,7 +40,9 @@ def get_file(url):
             'Accept-Language': 'en-US,en;q=0.8',
             'Connection': 'keep-alive'}
 
-        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+        proxies = {"http": "127.0.0.1:1080"}  # 设置你想要使用的代理
+        proxy_s = urllib2.ProxyHandler(proxies)
+        opener = urllib2.build_opener(proxy_s)
         urllib2.install_opener(opener)
 
         req = urllib2.Request(url,  headers=hdr)
