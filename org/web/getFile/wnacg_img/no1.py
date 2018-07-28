@@ -4,6 +4,7 @@ import os
 import uuid
 import urllib2
 import cookielib
+import re
 
 #获取文件后缀名
 def get_file_extension(file):
@@ -29,7 +30,7 @@ def unique_str():
 
 
 #'''抓取网页文件内容，保存到内存@url 欲抓取文件 ，path+filename'''
-def get_file(url):
+def get_file(url, fileCount):
     try:
         cj = cookielib.LWPCookieJar()
         hdr = {
@@ -46,6 +47,15 @@ def get_file(url):
         req = urllib2.Request(url,  headers=hdr)
         operate = opener.open(req)
         data = operate.read()
+        res_tr = r'<a class="down_btn" href="(.*?)" target="_blank">'
+        url = re.findall(res_tr, str(data), re.S | re.M)[0]
+
+        print url
+        f = urllib2.urlopen(url)
+        data = f.read()
+        with open("d:/imgscloud/"+str(fileCount)+".zip", "wb") as code:
+            code.write(data)
+
         return data
     except BaseException, e:
         print e
@@ -83,26 +93,16 @@ print get_file_extension("123.jpg")
 print unique_str()
 
 # 7370
-fileCount=7370
-while fileCount >= 11:
-    count = 1
-    while count <= 300:
-        name = ""
-        if count<10:
-            name = "00"+str(count)
-        if count>=10:
-            name = "0"+str(count)
-        if count >=100:
-            name = str(count)
-        url = "http://host2.imgscloud.com/file/"+str(fileCount)+"/"+str(fileCount)+"_"+name+".jpg"
-        print url
-        data = get_file(url)
-        if data == None:
-            fileCount -= 1
-            count = 0
-        save_file("d:/imgscloud/"+str(fileCount), str(fileCount)+"_"+name+".jpg", data)
+fileCount=1
+while fileCount <= 3:
 
+    url = "https://www.wnacg.com/download-index-aid-"+str(fileCount)+".html"
+    print url
+    data = get_file(url,fileCount)
+    if data == None:
+        fileCount -= 1
+        count = 0
+    save_file("d:/imgscloud/"+str(fileCount), str(fileCount)+".html", data)
 
-        count += 1
-    fileCount-=1
+    fileCount+=1
 
