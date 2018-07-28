@@ -51,8 +51,14 @@ def get_file(url, fileCount):
         url = re.findall(res_tr, str(data), re.S | re.M)[0]
 
         print url
-        f = urllib2.urlopen(url)
-        data = f.read()
+        proxies = {"http": "127.0.0.1:1080"}  # 设置你想要使用的代理
+        proxy_s = urllib2.ProxyHandler(proxies)
+        opener = urllib2.build_opener(proxy_s)
+        urllib2.install_opener(opener)
+
+        req = urllib2.Request(url, headers=hdr)
+        operate = opener.open(req)
+        data = operate.read()
         with open("d:/imgscloud/"+str(fileCount)+".zip", "wb") as code:
             code.write(data)
 
