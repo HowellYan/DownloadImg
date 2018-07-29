@@ -44,6 +44,8 @@ def get_file(url):
         proxy_s = urllib2.ProxyHandler(proxies)
         opener = urllib2.build_opener(proxy_s)
         urllib2.install_opener(opener)
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+        urllib2.install_opener(opener)
 
         req = urllib2.Request(url,  headers=hdr)
         operate = opener.open(req)
