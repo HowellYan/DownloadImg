@@ -20,6 +20,7 @@ pom.xml.versionsBackup
 
 # idea ignore
 .idea/
+vcs.xml
 *.ipr
 *.iml
 *.iws
