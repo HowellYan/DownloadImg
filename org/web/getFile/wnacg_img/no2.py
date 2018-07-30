@@ -58,7 +58,7 @@ def unique_str():
 
 # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
 # file_size = 271768736  # 文件总大小
-# local_path = "d:/imgscloud/1.zip"
+# local_path = "/Users/howell/Work/imgscloud/1.zip"
 
 def download_file(down_link, file_size, local_path):
     while True:
@@ -109,9 +109,9 @@ def get_file(url, fileCount):
         file_size = int(meta.getheaders("Content-Length")[0])
         content_type = meta.getheaders('Content-Type')[0].split(';')[0]
         print file_size, content_type
-        download_file(url, file_size, "d:/imgscloud/"+str(fileCount)+".zip")
+        download_file(url, file_size, "/Users/howell/Work/imgscloud/"+str(fileCount)+".zip")
         # data = f.read()
-        # with open("d:/imgscloud/"+str(fileCount)+".zip", "wb") as code:
+        # with open("/Users/howell/Work/imgscloud/"+str(fileCount)+".zip", "wb") as code:
         #     code.write(data)
 
         return data
@@ -145,7 +145,7 @@ def save_file(path, file_name, data):
 # print get_file_extension("123.jpg")
 
 # 創建文件目录，并返回该目录
-# print mkdir("d:/ljq")
+# print mkdir("/Users/howell/Work/ljq")
 
 # 自动生成一个唯一的字符串，固定长度为36
 # print unique_str()
@@ -160,7 +160,7 @@ while fileCount <= 3:
     if data == None:
         fileCount -= 1
         count = 0
-    save_file("d:/imgscloud/"+str(fileCount), str(fileCount)+".html", data)
+    save_file("/Users/howell/Work/imgscloud/"+str(fileCount), str(fileCount)+".html", data)
 
     fileCount+=1
 
