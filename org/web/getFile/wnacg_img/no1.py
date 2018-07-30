@@ -136,6 +136,7 @@ while fileCount <= 3:
         count = 0
     save_file("/Users/howell/Work/imgscloud/"+str(fileCount), str(fileCount)+".html", data)
 
+    print url
     data = get_file_zip(url, fileCount)
 
     save_file("/Users/howell/Work/imgscloud/"+str(fileCount), str(fileCount)+".zip", data)
