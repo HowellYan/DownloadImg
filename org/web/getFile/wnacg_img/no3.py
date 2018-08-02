@@ -104,8 +104,8 @@ def get_file(url):
         return None
 
 
-fileCount=67
-while fileCount <= 59000:
+fileCount=58596
+while fileCount >= 206:
 
     url = "https://www.wnacg.com/download-index-aid-"+str(fileCount)+".html"
     print url
@@ -114,31 +114,37 @@ while fileCount <= 59000:
     res_tr = r'<a class="down_btn" href="(.*?)" target="_blank">'
     down_link = re.findall(res_tr, str(data), re.S | re.M)[0]
 
+    es_tr = r'<p class="download_filename">(.*?)</p>'
+    name_file = re.findall(es_tr, str(data), re.S | re.M)[0]
+
     if data == None:
         fileCount -= 1
         count = 0
     save_html("/Users/howell/Work/imgscloud/"+str(fileCount), str(fileCount)+".html", data)
 
     print down_link
-    # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
-    local_path = "/Users/howell/Work/imgscloud/"+str(fileCount)+".zip"
+    if(".zip" == name_file):
+        fileCount -= 1
+    else:
+        # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
+        local_path = "/Users/howell/Work/imgscloud/"+str(fileCount)+"_"+name_file+".zip"
 
-    try:
-        file = urllib2.urlopen(down_link)
-        meta = file.info()
-        file_size = int(meta.getheaders("Content-Length")[0])  # 文件总大小
-        content_type = meta.getheaders('Content-Type')[0].split(';')[0]
-        print file_size, content_type, local_path, local_path, down_link
+        try:
+            file = urllib2.urlopen(down_link)
+            meta = file.info()
+            file_size = int(meta.getheaders("Content-Length")[0])  # 文件总大小
+            content_type = meta.getheaders('Content-Type')[0].split(';')[0]
+            print file_size, content_type, local_path, local_path, down_link
 
-        save_file(down_link, file_size, local_path)
+            save_file(down_link, file_size, local_path)
 
-    except urllib2.HTTPError, err:
-        print err.code
+        except urllib2.HTTPError, err:
+            print err.code
 
-    except urllib2.URLError, err:
-        print err
+        except urllib2.URLError, err:
+            print err
 
-    fileCount+=1
+        fileCount-=1
 
 
 
