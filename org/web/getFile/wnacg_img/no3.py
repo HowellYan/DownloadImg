@@ -104,7 +104,7 @@ def get_file(url):
         return None
 
 
-fileCount=58596
+fileCount=55619
 while fileCount >= 206:
 
     url = "https://www.wnacg.com/download-index-aid-"+str(fileCount)+".html"
