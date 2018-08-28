@@ -85,10 +85,11 @@ def get_file(url):
     try:
         cj = cookielib.LWPCookieJar()
         hdr = {
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
             'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
             'Accept-Encoding': 'none',
+            'cookie': '__cfduid=dbe3e3ab1f371e507ebec44a0b19787d61532949384; cf_clearance=a17376b236768f65bf4af49bdea397dd49ca261b-1534821176-604800-250',
             'Accept-Language': 'en-US,en;q=0.8',
             'Connection': 'keep-alive'}
 
@@ -100,12 +101,13 @@ def get_file(url):
         data = operate.read()
         return data
     except BaseException, e:
-        print e
+        print str(e)
         return None
 
 
-fileCount=55619
+fileCount=54574
 while fileCount >= 206:
+
 
     url = "https://www.wnacg.com/download-index-aid-"+str(fileCount)+".html"
     print url
@@ -127,7 +129,7 @@ while fileCount >= 206:
         fileCount -= 1
     else:
         # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
-        local_path = "/Users/howell/Work/imgscloud/"+str(fileCount)+"_"+name_file+".zip"
+        local_path = "/Users/howell/Work/imgscloud/"+str(fileCount)+".zip"
 
         try:
             file = urllib2.urlopen(down_link)
