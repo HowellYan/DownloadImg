@@ -104,7 +104,7 @@ def get_file(url):
         return None
 
 
-fileCount=1
+fileCount=2145
 while fileCount <= 59000:
 
     url = "https://www.wnacg.com/download-index-aid-"+str(fileCount)+".html"
@@ -122,13 +122,20 @@ while fileCount <= 59000:
     print down_link
     # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
     local_path = "D:/imgscloud/"+str(fileCount)+".zip"
-    file = urllib2.urlopen(down_link)
-    meta = file.info()
-    file_size = int(meta.getheaders("Content-Length")[0])  # 文件总大小
-    content_type = meta.getheaders('Content-Type')[0].split(';')[0]
-    print file_size, content_type, local_path, local_path, down_link
+    try:
+        file = urllib2.urlopen(down_link)
+        meta = file.info()
+        file_size = int(meta.getheaders("Content-Length")[0])  # 文件总大小
+        content_type = meta.getheaders('Content-Type')[0].split(';')[0]
+        print file_size, content_type, local_path, local_path, down_link
 
-    save_file(down_link, file_size, local_path)
+        save_file(down_link, file_size, local_path)
+
+    except urllib2.HTTPError, err:
+        print err.code
+
+    except urllib2.URLError, err:
+        print err
 
     fileCount+=1
 
