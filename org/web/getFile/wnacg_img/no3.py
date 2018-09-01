@@ -85,10 +85,11 @@ def get_file(url):
     try:
         cj = cookielib.LWPCookieJar()
         hdr = {
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
             'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
             'Accept-Encoding': 'none',
+            'cookie': '__cfduid=dbe3e3ab1f371e507ebec44a0b19787d61532949384; cf_clearance=a17376b236768f65bf4af49bdea397dd49ca261b-1534821176-604800-250',
             'Accept-Language': 'en-US,en;q=0.8',
             'Connection': 'keep-alive'}
 
@@ -100,12 +101,13 @@ def get_file(url):
         data = operate.read()
         return data
     except BaseException, e:
-        print e
+        print str(e)
         return None
 
 
-fileCount=67
-while fileCount <= 59000:
+fileCount=54574
+while fileCount >= 206:
+
 
     url = "https://www.wnacg.com/download-index-aid-"+str(fileCount)+".html"
     print url
@@ -114,31 +116,37 @@ while fileCount <= 59000:
     res_tr = r'<a class="down_btn" href="(.*?)" target="_blank">'
     down_link = re.findall(res_tr, str(data), re.S | re.M)[0]
 
+    es_tr = r'<p class="download_filename">(.*?)</p>'
+    name_file = re.findall(es_tr, str(data), re.S | re.M)[0]
+
     if data == None:
         fileCount -= 1
         count = 0
     save_html("/Users/howell/Work/imgscloud/"+str(fileCount), str(fileCount)+".html", data)
 
     print down_link
-    # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
-    local_path = "/Users/howell/Work/imgscloud/"+str(fileCount)+".zip"
+    if(".zip" == name_file):
+        fileCount -= 1
+    else:
+        # down_link = 'http://wnacg.download/down/0001/67dd670f043183f0813716dd5f071089.zip'  # 下载链接
+        local_path = "/Users/howell/Work/imgscloud/"+str(fileCount)+".zip"
 
-    try:
-        file = urllib2.urlopen(down_link)
-        meta = file.info()
-        file_size = int(meta.getheaders("Content-Length")[0])  # 文件总大小
-        content_type = meta.getheaders('Content-Type')[0].split(';')[0]
-        print file_size, content_type, local_path, local_path, down_link
+        try:
+            file = urllib2.urlopen(down_link)
+            meta = file.info()
+            file_size = int(meta.getheaders("Content-Length")[0])  # 文件总大小
+            content_type = meta.getheaders('Content-Type')[0].split(';')[0]
+            print file_size, content_type, local_path, local_path, down_link
 
-        save_file(down_link, file_size, local_path)
+            save_file(down_link, file_size, local_path)
 
-    except urllib2.HTTPError, err:
-        print err.code
+        except urllib2.HTTPError, err:
+            print err.code
 
-    except urllib2.URLError, err:
-        print err
+        except urllib2.URLError, err:
+            print err
 
-    fileCount+=1
+        fileCount-=1
 
 
 
